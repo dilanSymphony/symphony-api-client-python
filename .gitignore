@@ -109,4 +109,3 @@ venv.bak/
 # Credentials files
 sym_api_client_python/resources/certificates/*
 sym_api_client_python/resources/bot_private_key.pem
-*.log

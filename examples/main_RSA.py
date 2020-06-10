@@ -1,23 +1,13 @@
-import argparse
 import logging
-import os
-
-from sym_api_client_python.auth.auth import Auth
+from sym_api_client_python.configure.configure import SymConfig
 from sym_api_client_python.auth.rsa_auth import SymBotRSAAuth
 from sym_api_client_python.clients.sym_bot_client import SymBotClient
-from sym_api_client_python.configure.configure import SymConfig
-from sym_api_client_python.listeners.im_listener_test_imp import \
-    IMListenerTestImp
-from sym_api_client_python.listeners.room_listener_test_imp import \
-    RoomListenerTestImp
-
+from sym_api_client_python.listeners.im_listener_test_imp import IMListenerTestImp
+from sym_api_client_python.listeners.room_listener_test_imp import RoomListenerTestImp
 
 def configure_logging():
-        log_dir = os.path.join(os.path.dirname(__file__), "logs")
-        if not os.path.exists(log_dir):
-            os.makedirs(log_dir, exist_ok=True)
         logging.basicConfig(
-                filename=os.path.join(log_dir, 'example.log'),
+                filename='./logs/example.log',
                 format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                 filemode='w', level=logging.DEBUG
         )
@@ -27,24 +17,12 @@ def configure_logging():
 def main():
         print('Python Client runs using RSA authentication')
 
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--config", help="Config json file to be used")
-
-        args = parser.parse_args()
-
         # Configure log
         configure_logging()
 
-        # Cert Auth flow: pass path to certificate config.json file
-        if args.config is None:
-            config_path = os.path.join(os.path.dirname(__file__), "..", "resources", "config.json")
-        else:
-            config_path = args.config
-
-        # RSA Auth flow: pass path to rsa config.json file)
-        configure = SymConfig(config_path, __file__)
+        # RSA Auth flow: pass path to rsa config.json file
+        configure = SymConfig('../resources/config.json')
         configure.load_config()
-        #auth = SymBotRSAAuth(configure)
         auth = SymBotRSAAuth(configure)
         auth.authenticate()
 
