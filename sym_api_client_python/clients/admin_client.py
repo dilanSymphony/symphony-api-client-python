@@ -35,8 +35,10 @@ class AdminClient(APIClient):
         logging.debug('AdminClient/admin_list_users()')
         url = '/pod/v2/admin/user/list'
         params = {'skip': skip, 'limit': limit}
-
-        return self.bot_client.execute_rest_call("GET", url, params=params)
+        headers = {
+                'cache-control': 'no-cache'
+        }
+        return self.bot_client.execute_rest_call("GET", url, params=params, headers=headers)
     
     def admin_create_user(self, user_attributes):
         """
@@ -274,8 +276,10 @@ Calling this endpoint requires the User Provisioning role with ACCESS_USER_PROVI
         """
         logging.debug('AdminClient/admin_add_role()')
         url = '/pod/v1/admin/user/{0}/roles/add'.format(user_id)
-
-        return self.bot_client.execute_rest_call("POST", url, json=payload)
+        headers = {
+                'cache-control': 'no-cache'
+        }
+        return self.bot_client.execute_rest_call("POST", url, json=payload, headers=headers)
 
     def admin_remove_role(self, user_id, payload={}):
         """
@@ -285,7 +289,10 @@ Calling this endpoint requires the User Provisioning role with ACCESS_USER_PROVI
         """
         logging.debug('AdminClient/admin_remove_role()')
         url = '/pod/v1/admin/user/{0}/roles/remove'.format(user_id)
-        return self.bot_client.execute_rest_call("POST", url, json=payload)
+        headers = {
+                'cache-control': 'no-cache'
+        }
+        return self.bot_client.execute_rest_call("POST", url, json=payload, headers=headers)
 
 
     def import_message(self, imported_message):
